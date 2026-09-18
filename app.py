@@ -1,7 +1,7 @@
 import streamlit as st
 import sqlite3
 from datetime import date
-from google import genai
+import google.generativeai as genai
 import json
 
 # Page Config
