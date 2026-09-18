@@ -42,8 +42,7 @@ cursor.execute("""
 conn.commit()
 
 # 3. AI Client Setup
-genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
-model = genai.GenerativeModel("gemini-1.5-flash")
+client = genai.Client(api_key=st.secrets["GEMINI_API_KEY"])
 
 st.title("🏋️ Daily Diet Tracker")
 st.caption("Target: 2,350 kcal | 100g Protein")
@@ -92,7 +91,10 @@ if prompt_text := st.chat_input("E.g., 3 eggs with yolk, 50g soya chunks curry..
 
     try:
         full_prompt = f"{sys_instruction}\nUser ate: {prompt_text}"
-        response = model.generate_content(full_prompt)
+        response = client.models.generate_content(
+    model="gemini-1.5-flash",
+    contents=full_prompt
+)
         clean_text = response.text.replace("```json", "").replace("```", "").strip()
         data = json.loads(clean_text)
 
