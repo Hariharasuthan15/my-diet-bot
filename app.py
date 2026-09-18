@@ -95,15 +95,14 @@ if prompt_text := st.chat_input("E.g., 3 eggs with yolk, 50g soya chunks curry..
         response = model.generate_content(full_prompt)
         clean_text = response.text.replace("```json", "").replace("```", "").strip()
         data = json.loads(clean_text)
-        
+
         cursor.execute(
             "INSERT INTO meals (date, food, calories, protein) VALUES (?, ?, ?, ?)",
             (today_str, data["food_summary"], float(data["calories"]), float(data["protein"]))
         )
         conn.commit()
-
-        st.chat_message("assistant").write(data["reply_tamil"])
+        st.success(data.get("reply_tamil", "Logged successfully!"))
         st.rerun()
     except Exception as e:
-        st.error("Error analyzing meal. Please write clearly and try again.")
+        st.error(f"Actual Error: {e}")
       
