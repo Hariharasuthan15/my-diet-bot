@@ -43,8 +43,18 @@ conn.commit()
 
 # 3. AI Client Setup
 genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
-model = genai.GenerativeModel("models/gemini-1.5-flash")
 
+available_models = [
+    m.name for m in genai.list_models() 
+    if "generateContent" in m.supported_generation_methods
+]
+st.write("Supported models for your API key:", available_models)
+
+# Pick the first supported model automatically
+if available_models:
+    model = genai.GenerativeModel(available_models[0])
+else:
+    st.error("No generateContent models available for this API key.")
 st.title("🏋️ Daily Diet Tracker")
 st.caption("Target: 2,350 kcal | 100g Protein")
 
