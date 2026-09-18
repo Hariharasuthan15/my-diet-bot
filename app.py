@@ -43,7 +43,7 @@ conn.commit()
 
 # 3. AI Client Setup
 genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
-model = genai.GenerativeModel("gemini-latest")
+model = genai.GenerativeModel("gemini-pro")
 
 st.title("🏋️ Daily Diet Tracker")
 st.caption("Target: 2,350 kcal | 100g Protein")
