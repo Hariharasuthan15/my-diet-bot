@@ -91,13 +91,12 @@ if prompt_text := st.chat_input("E.g., 3 eggs with yolk, 50g soya chunks curry..
     """
 
     try:
+        try:
         full_prompt = f"{sys_instruction}\nUser ate: {prompt_text}"
         response = model.generate_content(full_prompt)
-        model="gemini-1.5-flash",
-        contents=full_prompt
         clean_text = response.text.replace("```json", "").replace("```", "").strip()
         data = json.loads(clean_text)
-
+        
         cursor.execute(
             "INSERT INTO meals (date, food, calories, protein) VALUES (?, ?, ?, ?)",
             (today_str, data["food_summary"], float(data["calories"]), float(data["protein"]))
